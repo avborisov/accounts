@@ -82,7 +82,7 @@
     </dependencies>
 
     <build>
-        <finalName>restaurant</finalName>
+        <finalName>accounts</finalName>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
         <testSourceDirectory>${basedir}/src/test/java/</testSourceDirectory>
         <plugins>
