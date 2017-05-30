@@ -218,7 +218,6 @@
             async: true,
             success: function (result) {
                 RestGetAll($('#subscriberName').val(), $('#accountNumber').val(), currentPage);
-                getPaginator(name, account);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 showError(jqXHR);
