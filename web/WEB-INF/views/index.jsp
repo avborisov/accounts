@@ -69,6 +69,7 @@
 <script type="text/javascript">
 
     var currentPage;
+    var paginatorSize;
     var opts = {
         lines: 9 // The number of lines to draw
         , length: 0 // The length of each line
@@ -90,8 +91,9 @@
         , shadow: false // Whether to render a shadow
         , hwaccel: false // Whether to use hardware acceleration
         , position: 'relative' // Element positioning
-    }
-    var target = document.getElementById('spinner')
+    };
+
+    var target = document.getElementById('spinner');
     var spinner = new Spinner(opts).spin(target);
     $('#spinner').hide();
     $('#warning').hide();
@@ -107,6 +109,22 @@
         });
 
 
+    function refreshPaginator() {
+        $('#paginator').empty();
+        $('#paginator').pagination({
+            items: paginatorSize,
+            itemsOnPage: 100,
+            cssStyle: 'light-theme',
+            prevText: 'Пред.',
+            nextText: 'След.',
+            currentPage: currentPage,
+            onPageClick: function (pageNumber, event) {
+                RestGetAll($('#subscriberName').val(), $('#accountNumber').val(), pageNumber);
+                currentPage = pageNumber;
+            }
+        });
+    }
+
     var getPaginator = function (name, account) {
         var getEntryPagesUrl = '/count/name/' + name + '/account/' + account;
         $.ajax({
@@ -115,19 +133,7 @@
             dataType: 'json',
             async: true,
             success: function (result) {
-                $('#paginator').empty();
-                $('#paginator').pagination({
-                    items: result,
-                    itemsOnPage: 100,
-                    cssStyle: 'light-theme',
-                    prevText: 'Пред.',
-                    nextText: 'След.',
-                    currentPage: currentPage,
-                    onPageClick: function (pageNumber, event) {
-                        RestGetAll($('#subscriberName').val(), $('#accountNumber').val(), pageNumber);
-                        currentPage = pageNumber;
-                    }
-                });
+                paginatorSize = result;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 showError(jqXHR);
@@ -160,6 +166,8 @@
             dataType: 'json',
             async: true,
             success: function (result) {
+                refreshPaginator();
+
                 $('#response').empty();
                 $('#response').append("<table id='result-grid' style='width: 900px;'><thead><tr>" +
                     "<th>Идентификатор абонента</th>" +
