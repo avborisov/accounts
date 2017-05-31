@@ -28,9 +28,19 @@ public class AppConfig {
     }
 
     @Bean
+    DriverManagerDataSource jdbcMySQLDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getProperty("jdbc.mysql.driver"));
+        dataSource.setUrl(environment.getProperty("jdbc.mysql.url"));
+        dataSource.setUsername(environment.getProperty("jdbc.mysql.username"));
+        dataSource.setPassword(environment.getProperty("jdbc.mysql.password"));
+        return dataSource;
+    }
+
+    @Bean
     public JdbcTemplate jdbcTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(jdbcDataSource());
+        jdbcTemplate.setDataSource(jdbcMySQLDataSource());
         return jdbcTemplate;
     }
 

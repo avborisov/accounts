@@ -1,7 +1,7 @@
 package ru.smitdev.accounts.config;
 
-import ru.smitdev.accounts.config.application.WebConfig;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+        import ru.smitdev.accounts.config.application.WebConfig;
+        import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override

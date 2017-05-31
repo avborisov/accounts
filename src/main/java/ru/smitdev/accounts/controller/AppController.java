@@ -45,10 +45,10 @@ public class AppController {
         account.createAccountTable();
         subscriber.createSubscriberTable();
 
-        Thread thread1 = new Thread(new EntryGenerator(0, 250 - 1));
-        Thread thread2 = new Thread(new EntryGenerator(250, 500 - 1));
-        Thread thread3 = new Thread(new EntryGenerator(500, 750 - 1));
-        Thread thread4 = new Thread(new EntryGenerator(750, 1000 - 1));
+        Thread thread1 = new Thread(new EntryGenerator(0, 250000 - 1));
+        Thread thread2 = new Thread(new EntryGenerator(250000, 500000 - 1));
+        Thread thread3 = new Thread(new EntryGenerator(500000, 750000 - 1));
+        Thread thread4 = new Thread(new EntryGenerator(750000, 1000000 - 1));
 
         thread1.start();
         thread2.start();

@@ -25,19 +25,13 @@ public class Account {
     public String createAccountTable() {
 
         jdbcTemplate.execute("DROP TABLE IF EXISTS " + ACCOUNTS_TABLE_NAME + " CASCADE");
-        jdbcTemplate.execute("DROP SEQUENCE IF EXISTS " + ACCOUNTS_TABLE_NAME + "_id_seq");
 
         jdbcTemplate.execute("CREATE TABLE " + ACCOUNTS_TABLE_NAME + "(\n" +
-                ACCOUNT_ID_COLUMN + " INTEGER PRIMARY KEY, \n" +
+                ACCOUNT_ID_COLUMN + " INTEGER PRIMARY KEY AUTO_INCREMENT, \n" +
                 ACCOUNT_NUMBER_COLUMN  + " VARCHAR (12) NOT NULL UNIQUE CHECK (" +
-                    ACCOUNT_NUMBER_COLUMN + " SIMILAR TO '[[:digit:]]{12}' AND char_length("+ ACCOUNT_NUMBER_COLUMN + ") = 12 ), \n" +
+                    ACCOUNT_NUMBER_COLUMN + " REGEXP '[[:digit:]]{12}' AND char_length("+ ACCOUNT_NUMBER_COLUMN + ") = 12 ), \n" +
                 SUBSCRIBER_ID_COLUMN + " INTEGER REFERENCES subscribers (id));"
         );
-
-        jdbcTemplate.execute("CREATE SEQUENCE " + ACCOUNTS_TABLE_NAME + "_id_seq;");
-        jdbcTemplate.execute("ALTER TABLE " + ACCOUNTS_TABLE_NAME + "\n" +
-                "ALTER COLUMN id\n" +
-                "SET DEFAULT NEXTVAL('" + ACCOUNTS_TABLE_NAME + "_id_seq');");
         return "table " + ACCOUNTS_TABLE_NAME + " created";
     }
 
@@ -48,7 +42,7 @@ public class Account {
             @Override
             public Boolean doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
                 preparedStatement.setString(1, number);
-                preparedStatement.setInt(2, (Integer) subscriberId);
+                preparedStatement.setLong(2, (Long) subscriberId);
                 return preparedStatement.execute();
             }
         });

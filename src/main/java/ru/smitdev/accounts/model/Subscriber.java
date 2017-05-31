@@ -25,16 +25,11 @@ public class Subscriber {
 
     public String createSubscriberTable() {
         jdbcTemplate.execute("DROP TABLE IF EXISTS " + SUBSCRIBERS_TABLE_NAME + " CASCADE");
-        jdbcTemplate.execute("DROP SEQUENCE IF EXISTS " + SUBSCRIBERS_TABLE_NAME + "_id_seq");
 
         jdbcTemplate.execute("CREATE TABLE " + SUBSCRIBERS_TABLE_NAME + "(\n" +
-                SUBSCRIBER_ID_COLUMN + " INTEGER PRIMARY KEY, \n" +
+                SUBSCRIBER_ID_COLUMN + " INTEGER PRIMARY KEY AUTO_INCREMENT, \n" +
                 SUBSCRIBER_NAME_COLUMN + " VARCHAR (255) NOT NULL);"
         );
-        jdbcTemplate.execute("CREATE SEQUENCE " + SUBSCRIBERS_TABLE_NAME + "_id_seq;");
-        jdbcTemplate.execute("ALTER TABLE " + SUBSCRIBERS_TABLE_NAME + "\n" +
-                "ALTER COLUMN id\n" +
-                "SET DEFAULT NEXTVAL('" + SUBSCRIBERS_TABLE_NAME + "_id_seq');");
         return "table " + SUBSCRIBERS_TABLE_NAME + " created";
     }
 
